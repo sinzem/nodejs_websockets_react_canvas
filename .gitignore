@@ -1,6 +1,9 @@
 /client/node_modules
 /client/README.md
 /client/package-lock.json
+
+/server/node_modules
+/server/package-lock.json
 /.pnp
 .pnp.js
 

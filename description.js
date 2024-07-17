@@ -6,3 +6,11 @@
 // npx create-react-app my-app  -  создаем реакт приложение и удаляем все лишнее
 
 // npm i mobx mobx-react-lite
+
+// npm start - запуск
+
+
+// Server
+    // npm init -y - быстрвя инициализация
+    // npm i express express-ws (ws для работы с вебсокетами)
+    // npm i -D nodemon
