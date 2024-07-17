@@ -32,6 +32,5 @@ export default class Brush extends Tool {
         /* (запустит функции canvas) */
         this.ctx.lineTo(x, y); 
         this.ctx.stroke(); /* (выделит линию цветом) */
-        console.log("draw brush");
     }
 } /* (подключаем в ToolBar на кнопку и в Canvas делаем кисточку активной при загрузке) */

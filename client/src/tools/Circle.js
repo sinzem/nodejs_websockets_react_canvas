@@ -1,7 +1,7 @@
 /* (класс для инструмента Rect(прямоугольник)) */
 import Tool from './Tool';
 
-export default class Rect extends Tool {
+export default class Circle extends Tool {
     constructor(canvas) {
         super(canvas); /* (подключаем в клас canvas) */
         this.listen(); /* (запускаем функцию-слушатель работы с canvas) */
@@ -30,19 +30,20 @@ export default class Rect extends Tool {
             let currentY = e.pageY - e.target.offsetTop;
             let width = currentX - this.startX;
             let height = currentY - this.startY;
-            this.draw(this.startX, this.startY, width, height); 
+            let r = Math.sqrt(width ** 2 + height ** 2); /* (высчитываем радиус) */
+            this.draw(this.startX, this.startY, r); 
         }
     }
 
-    draw(x, y, w, h) { /* (кроме координат передаем ширину и высоту прямоугольника) */
+    draw(x, y, r) { /* (кроме координат передаем радиус) */
         const img = new Image(); /* (создаем новое изображение) */
         img.src = this.saved; /* (помещаем в него изображение canvas на начало рисования(из mouseDownHandler)) */
-        img.onload = () => { /* (в начале рисования очищаем canvas и помещаем в него сохраненное изображение, задаем начало и рисуем - без этого при диагональных движениях мышкой получается много прямоугольников, которые накладываются друг на друга) */
+        img.onload = () => { /* (в начале рисования очищаем canvas и помещаем в него сохраненное изображение, задаем начало и рисуем - без этого при диагональных движениях мышкой получается много кругов, которые накладываются друг на друга) */
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
             this.ctx.beginPath();
-            this.ctx.rect(x, y, w, h); /* (встроенная функция для построения прямоугольников) */
-            this.ctx.fill(); /* (для заполнения прямоугольника) */
+            this.ctx.arc(x, y, r, 0, 2 * Math.PI); /* (встроенная функция для построения кругов) */
+            this.ctx.fill(); /* (для заполнения) */
             this.ctx.stroke(); /* (выделение/обводка) */
         }
     }
