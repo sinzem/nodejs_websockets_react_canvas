@@ -15,10 +15,14 @@ const Canvas = observer(() => { /* (для отслеживания измене
         toolState.setTool(new Brush(canvasRef.current)) /* (помещаем в состояния инструментов кисть с текущим canvas) */
     }, [])
 
+    const mouseDownHandler = () => {
+        canvasState.pushToUndo(canvasRef.current.toDataURL());
+    } /* (сохраняем в состояния скрин canvas на случай отмены действия) */
+
     return (
         <div className="canvas">
             {/* (размеры canvas рекоммендуется задавать в html, иначе они могут отображаться неточно) */}
-            <canvas width={600} height={400} ref={canvasRef} ></canvas>            
+            <canvas onMouseDown={() => mouseDownHandler()} width={600} height={400} ref={canvasRef} ></canvas>            
         </div>
     );
 });
