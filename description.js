@@ -9,8 +9,11 @@
 
 // npm start - запуск
 
+// npm i react-router-dom
+
 
 // Server
     // npm init -y - быстрвя инициализация
     // npm i express express-ws (ws для работы с вебсокетами)
     // npm i -D nodemon
+        // npm run dev - запуск
