@@ -2,9 +2,12 @@
 import {makeAutoObservable} from "mobx";
 
 class CanvasState {
-    canvas = null; 
+    canvas = null;  /* (помещаем сам элемент canvas в состояния) */
+    socket = null; /* (состояние подключения) */
+    sessionid = null; /* (id сессии подключения) */
     undoList = []; /* (сохраняем действия) */
     redoList = []; /* (для отмененных действий) */
+    username = ""; /* (для имени пользователя - будет вводить в модальное окно) */
 
     constructor() {
         makeAutoObservable(this); /* (для автоматического отслеживания состояний) */
@@ -13,6 +16,18 @@ class CanvasState {
     /* (action для изменения состояний) */
     setCanvas(canvas) {
         this.canvas = canvas;
+    }
+
+    setSocket(socket) {
+        this.socket = socket;
+    }
+    
+    setSessionId(id) {
+        this.sessionid = id;
+    }
+
+    setUsername(username) {
+        this.username = username;
     }
 
     pushToUndo(data) {

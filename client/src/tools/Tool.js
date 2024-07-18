@@ -2,8 +2,10 @@
 
 
 export default class Tool {
-    constructor(canvas) {
+    constructor(canvas, socket, id) {
         this.canvas = canvas;
+        this.socket = socket; /* (подключение) */
+        this.id = id; /* (id сессии(подключения)) */
         this.ctx = canvas.getContext('2d'); /* (context - обьект canvas, который позволяет рисовать на нем) */
         this.destroyEvents();
     }

@@ -14,8 +14,8 @@ function App() {
             <Toolbar />
             <SettingBar />
             <Canvas />
-          </>}/>
-          <Route /* path="*" */ element={<Navigate replace to={`f${(+new Date).toString(16)}`} />} />
+          </>}/> {/* (при загрузке будет редиректиться на адрес ниже - с добавлением id из даты) */}
+          <Route path="*" element={<Navigate replace to={`f${(+new Date).toString(16)}`} />} />
         </Routes>
       </div>
     </BrowserRouter>
