@@ -3,7 +3,7 @@ import Tool from './Tool';
 
 export default class Rect extends Tool {
     constructor(canvas, socket, id) {
-        super(canvas, socket, id); /* (подключаем в клас canvas) */
+        super(canvas, socket, id); /* (подключаем в класc canvas) */
         this.listen(); /* (запускаем функцию-слушатель работы с canvas) */
     }
 
@@ -16,7 +16,7 @@ export default class Rect extends Tool {
     /* (функции-слушатели мышки) */
     mouseUpHandler(e) { 
         this.mouseDown = false;
-        this.socket.send(JSON.stringify({
+        this.socket.send(JSON.stringify({ /* (при отпускании кнопки мышки отправит на сервер результат рисования(квадрат - анимацию рисования соккет не передаст)) */
             method: "draw",
             id: this.id,
             figure: {
@@ -58,7 +58,7 @@ export default class Rect extends Tool {
             this.ctx.stroke(); /* (выделение/обводка) */
         }
     }
-    /* (при socket-подключении) */
+    /* (при socket-подключении, подключаем в Canvas.jsx) */
     static staticDraw(ctx, x, y, w, h, color) { 
         ctx.fillStyle = color;
         ctx.beginPath();

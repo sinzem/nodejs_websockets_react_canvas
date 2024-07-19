@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {observer} from "mobx-react-lite"; /* (для отслеживания изменений) */
 import { useParams } from "react-router-dom"; /* (для получения id из адресной строки) */
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import '../styles/canvas.scss';
@@ -17,9 +18,20 @@ const Canvas = observer(() => { /* (для отслеживания измене
     const params = useParams(); /* (получаем обьект запроса(адресную строку)) */
 
     useEffect(() => {
-        console.log(canvasRef.current);
+        // console.log(canvasRef.current);
         canvasState.setCanvas(canvasRef.current); /* (при загрузке текущее состояние элемента попадает в состояния) */
         // toolState.setTool(new Brush(canvasRef.current)) /* (помещаем в состояния инструментов кисть с текущим canvas - если без socket) */
+        let ctx = canvasRef.current.getContext('2d');
+        axios.get(`http://localhost:5000/image?id=${params.id}`) /* (при загрузке сессии(по id) скачиваем с сервера последнее изображение по этой сессии и помещаем в canvas) */
+            .then(response => {
+                    console.log(response);
+                    const img = new Image();
+                    img.src = response.data;
+                    img.onload = () => {
+                    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+                    ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height);
+                }
+            })
     }, [])
 
     useEffect(() => {
@@ -70,6 +82,11 @@ const Canvas = observer(() => { /* (для отслеживания измене
         canvasState.pushToUndo(canvasRef.current.toDataURL());
     } /* (сохраняем в состояния скрин canvas на случай отмены действия) */
 
+    const mouseUpHandler = () => { /* (при отпускании кнопки мышки отправляем на сервер изображение canvas(в виде строки в кодировке base64)) */
+        axios.post(`http://localhost:5000/image?id=${params.id}`, {img: canvasRef.current.toDataURL()})
+            .then(response => console.log(response.data))
+    }
+
     const connectionHandler = () => {
         canvasState.setUsername(usernameRef.current.value); 
         setModal(false); /* (скраваем модальное окно) */
@@ -94,7 +111,13 @@ const Canvas = observer(() => { /* (для отслеживания измене
                 </Modal.Footer>
             </Modal>
             {/* (размеры canvas рекоммендуется задавать в html, иначе они могут отображаться неточно) */}
-            <canvas onMouseDown={() => mouseDownHandler()} width={600} height={400} ref={canvasRef} ></canvas>            
+            <canvas 
+                onMouseDown={() => mouseDownHandler()}
+                onMouseUp={() => mouseUpHandler()}  
+                width={600}
+                height={400} 
+                ref={canvasRef} >
+            </canvas>            
         </div>
     );
 });
