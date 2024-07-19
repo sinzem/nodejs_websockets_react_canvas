@@ -24,7 +24,8 @@ export default class Rect extends Tool {
                 x: this.startX,
                 y: this.startY,
                 width: this.width,
-                height: this.height
+                height: this.height,
+                color: this.ctx.fillStyle
             }
         }))
     }
@@ -58,7 +59,8 @@ export default class Rect extends Tool {
         }
     }
     /* (при socket-подключении) */
-    static staticDraw(ctx, x, y, w, h) { 
+    static staticDraw(ctx, x, y, w, h, color) { 
+        ctx.fillStyle = color;
         ctx.beginPath();
         ctx.rect(x, y, w, h); /* (встроенная функция для построения прямоугольников) */
         ctx.fill(); /* (для заполнения прямоугольника) */
